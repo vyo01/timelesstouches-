@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('images-5.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .price-form {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 400px;
+        }
+         
+        
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .navigation {
+            margin-top: 20px;
+        }
+
+        .navigation a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .navigation a:hover {
+            background-color: #45a049;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            background-color: black; /* Button color */
+            color: #fff; /* Text color */
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: GREY; /* Hover color */
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+    <title>Your Cleaning Services Pricing</title>
+</head>
+ 
+<body>
+
+
+    <title>Your Cleaning Services Pricing</title>
+</head>
+<body>
+
+<div class="price-form">
+    <h2>Cleaning Services Pricing</h2>
+
+    <label for="cleaning-type">Cleaning Type:</label>
+    <select id="cleaning-type" name="cleaning-type" onchange="updateOptions()">
+        <option value="regular">Regular Cleaning</option>
+        <option value="spring">Spring Cleaning</option>
+        <option value="event">Event Cleaning</option>
+        <option value="office">Office Cleaning</option>
+        <option value="construction">Construction Clean</option>
+        <option value="move-in-out">Move In/Out Cleaning</option>
+    </select>
+
+    <label for="extra-services">Extra Services:</label>
+    <input type="checkbox" id="laundry" name="laundry"> <label for="laundry">Laundry & Ironing</label>
+    <input type="checkbox" id="fridge" name="fridge"> <label for="fridge">Fridge Cleaning</label>
+    <input type="checkbox" id="window" name="window"> <label for="window">Window Cleaning</label>
+    <input type="checkbox" id="oven" name="oven"> <label for="oven">Oven Cleaning</label>
+
+    <label for="bedrooms">Number of Bedrooms:</label>
+    <select id="bedrooms" name="bedrooms" onchange="updateCleaningHours()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <label for="bathrooms">Number of Bathrooms:</label>
+    <select id="bathrooms" name="bathrooms">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+
+    <label for="cleaning-hours">Cleaning Hours:</label>
+    <select id="cleaning-hours" name="cleaning-hours">
+        <!-- Options will be dynamically updated based on the selected number of bedrooms -->
+    </select>
+
+    <button onclick="calculatePrice()">Calculate Price</button>
+
+    <div id="price-result"></div>
+
+    <button onclick="copyToWhatsApp()">Copy to WhatsApp</button>
+
+    <table id="price-table" style="display:none;">
+        <!-- Price details will be displayed here -->
+    </table>
+
+    <!-- Direct link to WhatsApp -->
+    <a href="https://wa.me/+27849561099" target="_blank">
+        <button>Contact Us on WhatsApp</button>
+    </a>
+
+     <br> 
+    <a href="Index.html" class="button">HOME</a>
+</div>
+
+<script>
+    function updateOptions() {
+        const cleaningTypeSelect = document.getElementById('cleaning-type');
+        const cleaningHoursSelect = document.getElementById('cleaning-hours');
+
+        // Enable/disable options based on cleaning type
+        if (cleaningTypeSelect.value === 'regular' || cleaningTypeSelect.value === 'spring') {
+            cleaningHoursSelect.disabled = false;
+            cleaningHoursSelect.innerHTML = '';
+
+            for (let i = 6; i <= 9; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i} hour${i !== 1 ? 's' : ''}`;
+                cleaningHoursSelect.appendChild(option);
+            }
+
+            // Enable other options
+            document.getElementById('bedrooms').disabled = false;
+            document.getElementById('bathrooms').disabled = false;
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+        } else if (cleaningTypeSelect.value === 'office' || cleaningTypeSelect.value === 'event' || cleaningTypeSelect.value === 'construction') {
+            cleaningHoursSelect.disabled = false;
+            cleaningHoursSelect.innerHTML = '';
+
+            for (let i = 4; i <= 10; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i} hour${i !== 1 ? 's' : ''}`;
+                cleaningHoursSelect.appendChild(option);
+            }
+
+            // Disable other options
+            document.getElementById('bedrooms').disabled = true;
+            document.getElementById('bathrooms').disabled = true;
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.disabled = true;
+            });
+        } else {
+            // Enable all options
+            document.getElementById('bedrooms').disabled = false;
+            document.getElementById('bathrooms').disabled = false;
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+
+            // Call the updateCleaningHours function to update the hours based on bedrooms
+            updateCleaningHours();
+        }
+    }
+
+    function updateCleaningHours() {
+        const bedrooms = document.getElementById('bedrooms').value;
+        const cleaningHoursSelect = document.getElementById('cleaning-hours');
+
+        // Clear existing options
+        cleaningHoursSelect.innerHTML = '';
+
+        // Add new options based on the number of bedrooms
+        if (bedrooms === '1') {
+            for (let i = 1; i <= 3; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i} hour${i !== 1 ? 's' : ''}`;
+                cleaningHoursSelect.appendChild(option);
+            }
+        } else if (bedrooms >= '2' && bedrooms <= '3') {
+            for (let i = 1; i <= 6; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i} hour${i !== 1 ? 's' : ''}`;
+                cleaningHoursSelect.appendChild(option);
+            }
+        } else if (bedrooms >= '4' && bedrooms <= '5') {
+            for (let i = 7; i <= 10; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i} hour${i !== 1 ? 's' : ''}`;
+                cleaningHoursSelect.appendChild(option);
+            }
+        }
+    }
+
+    function calculatePrice() {
+        const cleaningType = document.getElementById('cleaning-type').value;
+        const extraServices = document.querySelectorAll('input[type="checkbox"]:checked');
+        const cleaningHours = document.getElementById('cleaning-hours').value;
+        const bedrooms = document.getElementById('bedrooms').value;
+        const bathrooms = document.getElementById('bathrooms').value;
+
+        let extraServicesPrice = 0;
+        extraServices.forEach(service => {
+            extraServicesPrice += (0.02 * cleaningHours * 45);
+        });
+
+        const totalPrice = (cleaningHours * 45) + extraServicesPrice;
+
+        const resultContainer = document.getElementById('price-result');
+        resultContainer.innerHTML = `
+            <h3>Total Price:</h3>
+            <p>Cleaning Type: ${cleaningType}</p>
+            <p>Cleaning Hours: ${cleaningHours}</p>
+            <p>Extra Services Price: ${extraServicesPrice.toFixed(2)} Rand</p>
+            <p>Number of Bedrooms: ${bedrooms}</p>
+            <p>Number of Bathrooms: ${bathrooms}</p>
+            <p>Total Price: ${totalPrice.toFixed(2)} Rand</p>
+        `;
+
+        // Display the table and populate it with the calculated information
+        const priceTable = document.getElementById('price-table');
+        priceTable.style.display = 'block';
+        priceTable.innerHTML = `
+            <tr>
+                <th>Item</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Cleaning Type</td>
+                <td>${cleaningType}</td>
+            </tr>
+            <tr>
+                <td>Cleaning Hours</td>
+                <td>${cleaningHours}</td>
+            </tr>
+            <tr>
+                <td>Extra Services Price</td>
+                <td>${extraServicesPrice.toFixed(2)} Rand</td>
+            </tr>
+            <tr>
+                <td>Number of Bedrooms</td>
+                <td>${bedrooms}</td>
+            </tr>
+            <tr>
+                <td>Number of Bathrooms</td>
+                <td>${bathrooms}</td>
+            </tr>
+            <tr>
+                <td>Total Price</td>
+                <td>${totalPrice.toFixed(2)} Rand</td>
+            </tr>
+        `;
+    }
+
+    function copyToWhatsApp() {
+        const priceTable = document.getElementById('price-table');
+        const range = document.createRange();
+        range.selectNode(priceTable);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+
+        try {
+            // Copy the selected text to the clipboard
+            document.execCommand('copy');
+            alert('Information copied to clipboard. You can now paste it into your WhatsApp chat.');
+        } catch (err) {
+            console.error('Unable to copy to clipboard', err);
+        }
+
+        // Clear the selection
+        window.getSelection().removeAllRanges();
+    }
+</script>
+
+</body>
+</html>
